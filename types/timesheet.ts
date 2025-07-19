@@ -11,6 +11,6 @@ export type TimesheetEntry = {
 export type Timesheet = {
   week: number;
   date: string;
-  status: "COMPLETED" | "PENDING";
+  status: "COMPLETED" | "INCOMPLETE" | "MISSING" | "PENDING"; // <-- THIS LINE MUST BE CORRECT
   entries: TimesheetEntry[];
 };
