@@ -1,5 +1,5 @@
 // components/Dashboard/TimesheetWeekView.tsx
-import { Timesheet, TimesheetEntry } from '../../types/timesheet'; 
+import { Timesheet, TimesheetEntry } from '../../types/timesheet'; // Ensure TimesheetEntry is used for types
 
 interface TimesheetWeekViewProps {
   timesheet: Timesheet;
@@ -9,23 +9,22 @@ export default function TimesheetWeekView({ timesheet }: TimesheetWeekViewProps)
   const totalHours = timesheet.entries.reduce((sum, entry) => sum + entry.hours, 0);
 
   return (
-    
     <div className="bg-white p-8 rounded-lg shadow-md mb-8">
       <div className="flex justify-between items-center mb-6">
-        {/* Find the single quote in "This week's timesheet" and change it */}
-        <h2 className="text-2xl font-bold text-gray-800">This week&apos;s timesheet</h2>
-        {/* ... */}
+        <h2 className="text-2xl font-bold text-gray-800">This week&apos;s timesheet</h2> {/* Fixed &apos; */}
+        <div className="text-sm text-gray-600">
+          <span className="font-semibold">{totalHours}/40 hrs</span>
+          <span className="ml-2 text-blue-600">
+            {Math.round((totalHours / 40) * 100)}%
+          </span>
+        </div>
       </div>
-      {/* ... (rest of the file, check other text like "+ Add new task" too) ... */}
-      <button className="w-full border-2 border-dashed border-blue-300 text-blue-600 py-3 mt-4 rounded-lg hover:bg-blue-50 transition-colors">
-        + Add new task
-      </button>
-    </div>
-  );
+
+      {/* THIS CONDITIONAL RENDERING BLOCK GOES INSIDE THE MAIN DIV */}
       {timesheet.entries.length === 0 ? (
         <p className="text-gray-500 text-center py-8">No entries for this week yet.</p>
       ) : (
-        <div>
+        <div> {/* This div wraps the mapped entries and the 'Add new task' button */}
           {timesheet.entries.map(entry => (
             <div key={entry.id} className="border-b border-gray-200 py-4 last:border-b-0">
               <div className="flex justify-between items-center">
@@ -42,7 +41,7 @@ export default function TimesheetWeekView({ timesheet }: TimesheetWeekViewProps)
                         <path d="M10 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" />
                       </svg>
                     </button>
-                    
+                    {/* Dropdown menu - implement with state for showing/hiding */}
                   </div>
                 </div>
               </div>
@@ -53,6 +52,6 @@ export default function TimesheetWeekView({ timesheet }: TimesheetWeekViewProps)
           </button>
         </div>
       )}
-    </div>
+    </div> // This div is the main container for the entire component
   );
 }
