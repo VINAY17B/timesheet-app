@@ -1,17 +1,18 @@
 // pages/dashboard/[week].tsx
 import { useRouter } from 'next/router';
-import useSWR from 'swr'; // IMPORTANT: Make sure 'swr' is installed!
-import { Timesheet } from '../../types/timesheet'; // Adjust path
-import Navbar from '../../components/ApplicationUI/Navbar'; // Adjust path
-import TimesheetWeekView from '../../components/Dashboard/TimesheetWeekView'; // Adjust path
+import useSWR from 'swr'; 
+import { Timesheet } from '../../types/timesheet'; 
+import Navbar from '../../components/ApplicationUI/Navbar'; 
+import TimesheetWeekView from '../../components/Dashboard/TimesheetWeekView'; 
 
-// Define your fetcher function (you might have this in utils/api.ts)
+
 const fetcher = (url: string) => fetch(url).then(res => {
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the data.');
-    // @ts-ignore
+    // Change @ts-ignore to @ts-expect-error here:
+    // @ts-expect-error
     error.info = res.statusText;
-    // @ts-ignore
+    // @ts-expect-error
     error.status = res.status;
     throw error;
   }

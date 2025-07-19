@@ -9,17 +9,19 @@ export default function TimesheetWeekView({ timesheet }: TimesheetWeekViewProps)
   const totalHours = timesheet.entries.reduce((sum, entry) => sum + entry.hours, 0);
 
   return (
+    
     <div className="bg-white p-8 rounded-lg shadow-md mb-8">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">This week's timesheet</h2>
-        <div className="text-sm text-gray-600">
-          <span className="font-semibold">{totalHours}/40 hrs</span>
-          <span className="ml-2 text-blue-600">
-            {Math.round((totalHours / 40) * 100)}%
-          </span>
-        </div>
+        {/* Find the single quote in "This week's timesheet" and change it */}
+        <h2 className="text-2xl font-bold text-gray-800">This week&apos;s timesheet</h2>
+        {/* ... */}
       </div>
-
+      {/* ... (rest of the file, check other text like "+ Add new task" too) ... */}
+      <button className="w-full border-2 border-dashed border-blue-300 text-blue-600 py-3 mt-4 rounded-lg hover:bg-blue-50 transition-colors">
+        + Add new task
+      </button>
+    </div>
+  );
       {timesheet.entries.length === 0 ? (
         <p className="text-gray-500 text-center py-8">No entries for this week yet.</p>
       ) : (
