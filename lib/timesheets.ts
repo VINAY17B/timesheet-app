@@ -26,8 +26,8 @@ export const mockUsers: MockUser[] = [
   // Add more mock users as needed
 ];
 
-// existing mockTimesheets data
-export const mockTimesheets = [
+// CORRECTED: Explicitly type mockTimesheets as Timesheet[]
+export const mockTimesheets: Timesheet[] = [
   {
     week: 1,
     date: "1 - 5 January, 2024",
