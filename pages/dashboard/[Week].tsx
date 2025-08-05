@@ -9,7 +9,7 @@ import TimesheetWeekView from '../../components/Dashboard/TimesheetWeekView';
 const fetcher = (url: string) => fetch(url).then(res => {
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the data.');
-    // Add descriptions here:
+    
     // @ts-expect-error Non-standard error property info
     error.info = res.statusText;
     // @ts-expect-error Non-standard error property status
@@ -23,7 +23,7 @@ export default function WeeklyTimesheetPage() {
   const router = useRouter();
   const { week } = router.query;
 
-  // IMPORTANT: Only start fetching when router.isReady and week is available
+  
   const { data, error } = useSWR<Timesheet>(router.isReady && week ? `/api/timesheets/${week}` : null, fetcher);
 
   // Show loading state while router is not ready OR data is not yet loaded

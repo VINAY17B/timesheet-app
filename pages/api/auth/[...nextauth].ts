@@ -6,21 +6,21 @@ import type { NextAuthOptions } from "next-auth";
 import { mockUsers } from "../../../lib/timesheets"; 
 
 
+// This block extends NextAuth's default types to include our custom 'id'.
 declare module "next-auth" {
-  
+  // Extend the default User type
   interface User {
-    id: string; // Your custom user ID from mockUsers
-    
+    id: string; 
   }
 
-  // Extend the default Session type to use your extended User type
+  // Extend the default Session type to use our extended User type
   interface Session {
-    user: User; // Ensure Session.user is our extended User type
+    user: User;
   }
 
-  // Extend the default JWT type to include custom properties
+  // Extend the default JWT type to include our custom 'id'
   interface JWT {
-    id?: string; // Add your custom ID property to the token
+    id?: string;
   }
 }
 
@@ -35,44 +35,38 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         const { email, password } = credentials ?? {};
 
-        // Find the user in your mock data
         const user = mockUsers.find(u => u.email === email);
 
-        // If user exists and password matches (for mock data)
         if (user && user.password === password) {
-          
           return { id: user.id, name: user.name, email: user.email };
         }
-        // If no user found or password doesn't match
         return null;
       }
     })
   ],
   callbacks: {
-    // Correct types for jwt callback and handling unused parameters
     async jwt({ token, user, account: _account, profile: _profile, isNewUser: _isNewUser }) {
       if (user) {
-        token.id = user.id; // Assign custom user ID to token
+        token.id = user.id;
       }
       return token;
     },
     
-    async session({ session, token, user: _user }) { // 'user' from NextAuth context is often unused here
-      
+    async session({ session, token, user: _user }) {
       if (session.user && token.id) {
-        session.user.id = token.id; // Assign ID from token to session.user
+        // FINAL FIX: Explicitly cast token.id to a string to resolve Vercel's compiler error
+        session.user.id = token.id as string; 
       }
       return session;
     }
   },
   pages: {
     signIn: "/", 
-    
   },
   session: {
-    strategy: "jwt", // Use JWT for session management
+    strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET, // Environment variable for session encryption/signing
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);

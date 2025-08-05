@@ -17,8 +17,7 @@ interface CustomSession {
 
 // Function to require authentication for server-side rendered pages
 export async function requireAuth(context: GetServerSidePropsContext) { // <-- Use GetServerSidePropsContext for type
-  // Explicitly cast session to your CustomSession type if you have one,
-  // otherwise, it will infer from NextAuth's Session type.
+
   const session = await getServerSession(context.req, context.res, authOptions) as CustomSession;
 
   if (!session || !session.user || !session.user.id) { // Also check for session.user and session.user.id if critical
